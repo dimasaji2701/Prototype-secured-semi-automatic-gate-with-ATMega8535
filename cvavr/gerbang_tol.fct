@@ -1,0 +1,5 @@
+main DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"gerbang_tol.c" LINE:143
+tampil_lcd DSTACK_USAGE:0 DSTACK_LEVEL:0 FILE:"gerbang_tol.c" LINE:133
+ftoa DSTACK_USAGE:13 DSTACK_LEVEL:13 FILE:"C:\cvavreval\lib\stdlib.lib" LINE:933
+floor DSTACK_USAGE:4 DSTACK_LEVEL:17 FILE:"C:\cvavreval\lib\math.lib" LINE:659
+ftrunc DSTACK_USAGE:4 DSTACK_LEVEL:21 FILE:"C:\cvavreval\lib\math.lib" LINE:544

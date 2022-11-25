@@ -1,0 +1,23 @@
+RAM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+nilai                                                             0x013A       4
+password1                                                         0x013E       4
+password2                                                         0x0142       4
+temp                                                              0x0146      12
+array                                                             0x0152      10
+_seed                                                             0x015C       4
+base_y                                                            0x0160       8
+
+EEPROM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                          Register  Size
+--------------------------------------------------------------------------------
+kesalahan                                                         R4,R5        2
+k                                                                 R6,R7        2
+i                                                                 R9           1
+indeks                                                            R8           1
+lbl                                                               R2.0      1bit

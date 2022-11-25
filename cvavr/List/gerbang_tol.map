@@ -1,0 +1,45 @@
+RAM Allocation [bytes]
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+nilai                                                             0x02BA       4
+password1                                                         0x02BE       4
+password2                                                         0x02C2       4
+temp                                                              0x02C6      12
+array                                                             0x02D2      10
+_seed                                                             0x02DC       4
+base_y                                                            0x02E0       8
+
+EEPROM Allocation [bytes]
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                          Register  Size
+--------------------------------------------------------------------------------
+kesalahan                                                         R4,R5        2
+k                                                                 R6,R7        2
+i                                                                 R9           1
+indeks                                                            R8           1
+lbl                                                               R2.0      1bit
+
+FLASH Allocation [words]
+Function                                                          Address   Size
+--------------------------------------------------------------------------------
+lock                                                              0x000CA     24
+enter                                                             0x000E2    109
+simpan_dlm_1variabel                                              0x0014F     36
+scanning_keypad                                                   0x00173     97
+tampil_lcd                                                        0x001D4     22
+main                                                              0x001EA     24
+ftoa                                                              0x00202    148
+lcd_write                                                         0x00296     29
+lcd_reset                                                         0x002B3     20
+lcd_cmd                                                           0x002C7     12
+lcd_init                                                          0x002D3      8
+lcd_data                                                          0x002DB     12
+lcd_puts                                                          0x002E7     19
+lcd_clear                                                         0x002FA      3
+lcd_gotoxy                                                        0x002FD     15
+ftrunc                                                            0x0030C     48
+floor                                                             0x0033C     16
+strcpyf                                                           0x0034C     13

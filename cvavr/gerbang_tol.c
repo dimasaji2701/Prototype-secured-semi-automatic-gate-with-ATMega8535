@@ -1,0 +1,171 @@
+#include <mega8535.h>
+#include <delay.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+int kesalahan = 0, k;
+float nilai=0, password1 = 18022, password2 = 18051;
+char temp[12], array[10], i=0, indeks=0;
+//variabel indeks digunakan untuk mendeteksi jika indeks=0 unlock, indeks=1 lock
+
+// Alphanumeric LCD Module functions
+
+#include <i2clcd.h>
+
+void lock()
+{
+ while (indeks==0)
+      {
+      lcd_gotoxy(0,0);
+      lcd_puts("Please press 'A'");
+      lcd_gotoxy(0,1);
+      lcd_puts("to lock");
+
+      PORTD = 0b11111110;
+      delay_ms(30);
+      if (PIND.7 == 0)
+       {
+        indeks=1;
+        PORTD.0=1;//terkunci
+        lcd_clear();   
+        lcd_gotoxy(0,0);
+        lcd_puts("Starting");
+        delay_ms(1000);
+        lcd_clear();
+        }
+      }
+}
+
+void enter()
+{
+if (nilai==password1 | nilai == password2)
+   {
+   lcd_clear();
+   lcd_gotoxy(0,0);
+   lcd_puts("unlocked");
+   delay_ms(1000);
+   for(k = 0; k < 10; k++){ //Membuka 
+     PORTB.3 = 1;
+     delay_ms(1);
+     PORTB.3 = 0;
+     delay_ms(19);
+   }
+   delay_ms(5000);
+   for(k = 0; k < 10; k++){
+     PORTB.3 = 1;
+     delay_ms(2);
+     PORTB.3 = 0;
+     delay_ms(18);
+   }
+   delay_ms(5000);
+   i=0; nilai=0; kesalahan = 0;
+   PORTD.0=0;//kunci terbuka
+   indeks=0;  
+   }                       
+else
+   {
+   lcd_clear();
+   lcd_gotoxy(0,0);
+   lcd_puts("wrong password");
+   delay_ms(2500);
+   i=0; nilai=0;
+   kesalahan++;
+   if(kesalahan == 3){
+      PORTA.0 = 1;
+      for(k = 0; k < 20; k++){
+        PORTA.1 = 1;
+        delay_ms(500);
+        PORTA.1 = 0;
+        delay_ms(500);
+      }
+      PORTA.0 = 0;
+   }
+   else{
+      indeks=1;//karena password salah jadi masih terkunci
+   }
+}
+}
+
+void simpan_dlm_1variabel()
+{
+       if (i==1){nilai=array[i];}
+
+       if (i>=2 && i<=8)
+           {
+           nilai=(nilai*10)+array[i];
+           }   
+}
+
+void scanning_keypad()//scanning pendeteksian penekanan keypad
+{
+lcd_gotoxy(0,0);
+lcd_puts("enter u'r pass");
+
+PORTD = 0b11110111;
+delay_ms(30);
+if (PIND.7 == 0) {i++; array[i]=1; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.6 == 0) {i++; array[i]=4; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.5 == 0) {i++; array[i]=7; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.4 == 0) {lcd_clear();i=0;nilai=0;delay_ms(300);}
+
+PORTD = 0b11111011;
+delay_ms(30);
+if (PIND.7 == 0) {i++; array[i]=2; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.6 == 0) {i++; array[i]=5; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.5 == 0) {i++; array[i]=8; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.4 == 0) {i++; array[i]=0; simpan_dlm_1variabel(); delay_ms(300);}
+
+PORTD = 0b11111101;
+delay_ms(30);
+if (PIND.7 == 0) {i++; array[i]=3; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.6 == 0) {i++; array[i]=6; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.5 == 0) {i++; array[i]=9; simpan_dlm_1variabel(); delay_ms(300);}
+if (PIND.4 == 0) {delay_ms(300);}
+
+PORTD = 0b11111110;
+delay_ms(30);
+if (PIND.7 == 0) {delay_ms(300);}
+if (PIND.6 == 0) {delay_ms(300);}
+if (PIND.5 == 0) {i=0; nilai=0; lcd_clear(); delay_ms(300);}
+if (PIND.4 == 0) {enter();delay_ms(300);}
+}
+
+void tampil_lcd()
+{
+if (nilai>0)
+    {                                        
+        ftoa(nilai,0,temp);
+        lcd_gotoxy(0,1);
+        lcd_puts(temp);
+    }
+}
+
+void main(void)
+{
+DDRA.0 = 1;
+DDRA.1 = 1;
+PORTD = 0xff;
+DDRD = 0x0f;
+
+DDRB.3 = 1;
+
+   
+// Analog Comparator initialization
+// Analog Comparator: Off
+// Analog Comparator Input Capture by Timer/Counter 1: Off
+ACSR=0x80;
+SFIOR=0x00;
+
+// LCD module initialization
+lcd_init();
+lcd_puts("-----ELS 18-----");
+delay_ms(1500);
+lcd_clear();
+
+while (1)
+      {
+      lock();
+      scanning_keypad();
+      tampil_lcd();         
+      };
+}
